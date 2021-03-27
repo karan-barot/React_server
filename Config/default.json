@@ -1,0 +1,4 @@
+{
+    "mongoDBConnection":"mongodb+srv://User1:Adit123@cluster0.urdhb.mongodb.net/taskapp?retryWrites=true&w=majority",
+    "jwtsecret":"secret"
+}
