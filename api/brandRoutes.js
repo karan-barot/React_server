@@ -7,6 +7,8 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended:false}))
 const auth = require('../middleware/auth')
 
+
+//Get all brands
 router.get('/',async(req,res)=>{
     try {        
         const allbrands = await brands.find();
@@ -17,7 +19,7 @@ router.get('/',async(req,res)=>{
     }
 });
 
-
+//Get brand by id
 router.get(':/id',async(req,res)=>{
     try{
         const brand = await brands.findById(req.params.id);
@@ -29,16 +31,20 @@ router.get(':/id',async(req,res)=>{
         return res.status(500).send('Server Error');
     }
 })
+
+//Create new brand
 router.post('/',auth,
 [
-    check('name','Name is reuired').not().isEmpty(),
-    check('name','Name should be atleast 2 character long').isLength({min:2}),
-    check('description','description is reuired').not().isEmpty(),
-    check('category','category is reuired').not().isEmpty(),
+    check('name','Brand name is reuired').not().isEmpty(),
+    check('name','Brand name should be atleast 2 character long').isLength({min:2}),
+    check('description','Brand description is reuired').not().isEmpty(),
+    check('category','Brand category is reuired').not().isEmpty(),
     
 
 ],async(req,res)=>{
+
     console.log("Try block") 
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
@@ -62,6 +68,8 @@ router.post('/',auth,
     }
 })
 
+
+//Edit brand
 router.put('/',auth,async(req,res)=>{
     try {
         const brand = await brands.findById(req.body.id);
@@ -79,6 +87,8 @@ router.put('/',auth,async(req,res)=>{
         
     }
 })
+
+//Delete brand
 router.delete('/',auth,async(req,res)=>{
     try {
         const brand = await brands.findById(req.body.id);
@@ -93,4 +103,5 @@ router.delete('/',auth,async(req,res)=>{
         res.status(404).send('Car not found!!!');        
     }
 })
+
 module.exports=router

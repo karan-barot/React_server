@@ -7,6 +7,7 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended:false}))
 const auth = require('../middleware/auth')
 
+//Get carts
 router.get('/',async(req,res)=>{
     try {        
         const allcarts = await carts.find();
@@ -17,7 +18,7 @@ router.get('/',async(req,res)=>{
     }
 });
 
-
+//get cart by id
 router.get(':/id',async(req,res)=>{
     try{
         const cart = await carts.findById(req.params.id);
@@ -29,12 +30,12 @@ router.get(':/id',async(req,res)=>{
         return res.status(500).send('Server Error');
     }
 })
+
+//add cart
 router.post('/',auth,
 [
     check('amount','amount is reuired').not().isEmpty(),
     check('quantity','quantity is reuired').not().isEmpty(),
-    
-
 ],async(req,res)=>{
     console.log("Try block") 
     const errors = validationResult(req);
@@ -63,6 +64,8 @@ router.post('/',auth,
     }
 })
 
+
+//edit cart
 router.put('/',auth,async(req,res)=>{
     try {
         const cart = await carts.findById(req.body.id);
@@ -81,6 +84,8 @@ router.put('/',auth,async(req,res)=>{
         
     }
 })
+
+//delete cart
 router.delete('/',auth,async(req,res)=>{
     try {
         const cart = await carts.findById(req.body.id);
@@ -95,4 +100,6 @@ router.delete('/',auth,async(req,res)=>{
         res.status(404).send('Car not found!!!');        
     }
 })
+
+
 module.exports=router

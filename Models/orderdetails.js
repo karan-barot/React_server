@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const OrderdetailsSchema=new mongoose.Schema({
-    user:{
+    order:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'user',
+        ref:'order',
     },
     item:{
         type:mongoose.Schema.Types.ObjectId,
@@ -22,6 +22,5 @@ module.exports = mongoose.model('orderdetails',OrderdetailsSchema)
 /**
  user
  item
- order
- 
+ order 
  */

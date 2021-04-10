@@ -22,7 +22,7 @@ router.get('/',async(req,res)=>{
 });
 
 
-router.post('/',auth,
+router.post('/',
 [
     //check if name is not empty
     check('name','Name is required!!!').not().isEmpty(),
