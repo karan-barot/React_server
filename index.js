@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
+app.use(cors())
 const carRoutes = require('./api/carsRoutes')
 const userRoutes = require('./api/userRoutes')
 const authRoutes = require('./api/authRoutes')
@@ -15,7 +17,6 @@ const orderdetailsRoutes = require('./api/orderdetailsRoutes')
 const connectDB = require('./Config/connectDB')
 
 connectDB()
-
 app.use('/api/car',carRoutes)
 app.use('/api/user',userRoutes)
 app.use('/api/auth',authRoutes)
