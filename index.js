@@ -15,13 +15,10 @@ const wishlistRoutes = require('./api/wishlistRoutes')
 const orderRoutes = require('./api/orderRoutes')
 
 //Environment
-var environment = process.env.NODE_ENV || 'development'
-const connectDB = require('./config/connectDB')
 
 //Make folder public
 const { static } = require('express')
 
-connectDB()
 app.use('/uploads',express.static('uploads'))
 app.use('/api/car',carRoutes)
 app.use('/api/user',userRoutes)
