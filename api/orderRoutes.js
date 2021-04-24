@@ -7,6 +7,8 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended:false}))
 const auth = require('../middleware/auth');
 const order = require('../Models/order');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId
 
 router.get('/',async(req,res)=>{
     try {        
@@ -18,6 +20,22 @@ router.get('/',async(req,res)=>{
     }
 });
 
+//get user ordersLength
+router.get('/user/:id',async(req,res)=>{
+    try {        
+        const allorders = await orders.aggregate([
+            {
+                $match:{
+                    user:ObjectId(req.params.id)
+                }
+            }
+        ]);
+        console.log(allorders)
+        res.send(allorders)
+    } catch (err) {
+        return res.status(500).send('Server Error');
+    }
+});
 
 router.get(':/id',async(req,res)=>{
     try{
@@ -39,22 +57,20 @@ router.post('/',auth,
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }   
-    console.log(errors)
     console.log(req.body)
     try {       
-        var d = new Date() 
-       
+        var d = new Date();
         if(req.body!=null){
             const newOrder = new orders({
                 user:req.user.id,
                 number:d.toISOString().replace(/-/g,'').replace(/:/g,'').replace(/T/,'').slice(0,14)+req.user.id,
                 amount:req.body.amount
-
             });           
             const result = await newOrder.save();
-            res.send(newOrder);
+            res.send(result);
         }
         else{
+            console.log()
             res.status(500).send('Server Error');      
         }
         
@@ -62,16 +78,25 @@ router.post('/',auth,
         res.status(500).send('Server Error');        
     }
 })
-
-router.delete('/',auth,async(req,res)=>{
+/*
+router.delete('/:id',auth,async(req,res)=>{
     try {
-        const order = await orders.findById(req.body.id);
+        const order = await orders.findById(req.params.id);
         if(!order){
             res.send('order not found!!!')
         }
        
-        const result = await orders.findByIdAndDelete(req.body.id)
+        const result = await orders.findByIdAndDelete(req.params.id)
         res.send(result)
+   
+    } catch (err) {
+        res.status(404).send('Order not found!!!');        
+    }
+})
+*/
+router.delete('/',auth,async(req,res)=>{
+    try {
+        const o = await orders.remove({})
    
     } catch (err) {
         res.status(404).send('Order not found!!!');        

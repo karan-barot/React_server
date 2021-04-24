@@ -6,7 +6,9 @@ const { check, validationResult } = require('express-validator');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended:false}))
 const auth = require('../middleware/auth')
+const mongoose = require('mongoose');
 
+const ObjectId = mongoose.Types.ObjectId
 //Get carts
 router.get('/',async(req,res)=>{
     try {        
@@ -17,7 +19,36 @@ router.get('/',async(req,res)=>{
         return res.status(500).send('Server Error');
     }
 });
-
+//Get use rcart
+router.get('/user/:id',async(req,res)=>{
+    console.log('user cart')
+    console.log(req.params.id)
+    const userid =  req.params.id
+    try{
+        const userCart = await carts.aggregate([
+            {
+                $match:{
+                    user:ObjectId(userid)
+                }
+            },
+            {
+                $lookup:
+                {
+                    from:'items',
+                    localField:"item",
+                    foreignField:"_id",                    
+                    as:"itemdetails",                  
+                }
+            }
+        ])
+        var cart = userCart.find(user=>user==req.params.id)
+        console.log('-----------------')
+        console.log(cart)
+        res.send(userCart)
+    }catch(err){
+        console.log(err)
+    }
+})
 //get cart by id
 router.get(':/id',async(req,res)=>{
     try{
@@ -48,7 +79,7 @@ router.post('/',auth,
         if(req.body!=null){
             const newCart = new carts({
                 item:req.body.item,
-                user:req.body.id,
+                user:req.body.user,
                 amount:req.body.amount,
                 quantity:req.body.quantity
             });           
@@ -86,14 +117,16 @@ router.put('/',auth,async(req,res)=>{
 })
 
 //delete cart
-router.delete('/',auth,async(req,res)=>{
+router.delete('/:id',async(req,res)=>{
+    console.log("delete carts")
+    console.log(req.params)
     try {
-        const cart = await carts.findById(req.body.id);
+        const cart = await carts.findById(req.params.id);
         if(!cart){
             res.send('cart not found!!!')
         }
        
-        const result = await carts.findByIdAndDelete(req.body.id)
+        const result = await carts.findByIdAndDelete(req.params.id)
         res.send(result)
    
     } catch (err) {

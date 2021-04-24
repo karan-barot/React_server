@@ -25,7 +25,7 @@ const storage1 = multer.diskStorage({
         cb(null,'./uploads/');
     },
     filename:function(req,file,cb){
-        cb(null,Date.now()+'-'+file.originalname)
+        cb(null,file.originalname)
     }
 });
    
@@ -68,32 +68,38 @@ router.post('/',upload.single('image'),auth,
 
 ],async(req,res)=>{
     
-
-    
+    console.log("item post")
+  
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        console.log(errors)
         return res.status(422).json({ errors: errors.array() });
-    }   
+    }  
+
     try {       
-        
+
+        console.log(req.body)
+        console.log(req.file.path)
         console.log("in try")
         if(req.body!=null){
             const newItem = new items({
                 name:req.body.name,
-                //number:req.body.number,
+                number:req.body.number,
                 description:req.body.description,
-                //brand:req.body.brand,
+                brand:req.body.brand,
                 category:req.body.category,
-                //subcategory:req.body.subcategory
+                subcategory:req.body.subcategory,
+                price:req.body.price,
+                color:req.body.color,
+                size:req.body.size,
                 image:req.file.path
             });           
             const result = await newItem.save();
-            res.send(newItem);
-        }
-        else{
-            res.status(500).send('Server Error');      
-        }
+            console.log("success")
+            res.send(result);
         
+        }
+ 
     } catch (err) {
         console.log(err)
         res.status(500).send('Server Error');        
@@ -125,18 +131,26 @@ router.put('/',auth,async(req,res)=>{
         
     }
 })
-router.delete('/',auth,async(req,res)=>{
+router.delete('/:id',auth,async(req,res)=>{
+    console.log("delete request")
+    console.log(req.params)
+
+    const id = req.params.id
     try {
-        const item = await items.findById(req.body.id);
+        console.log("delete item")
+
+        const item = await items.findById(id);
         if(!item){
-            res.send('subcategory not found!!!')
+            res.send('Item not found!!!')
         }
        
-        const result = await items.findByIdAndDelete(req.body.id)
+        const result = await items.findByIdAndDelete(id)
+        console.log("success")
         res.send(result)
    
     } catch (err) {
-        res.status(404).send('Car not found!!!');        
+        console.log(err)
+        res.status(404).send('item not found!!!');        
     }
 })
 module.exports=router
