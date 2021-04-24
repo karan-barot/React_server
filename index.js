@@ -13,7 +13,8 @@ const itemRoutes = require('./api/itemRoutes')
 const cartRoutes = require('./api/cartRoutes')
 const wishlistRoutes = require('./api/wishlistRoutes')
 const orderRoutes = require('./api/orderRoutes')
-const connect = require('./connectDb')
+const orderDetailsRoutes = require('./api/orderDetailsRoutes')
+const connect = require('./config/connectDB')
 
 console.log(connect())
 
@@ -31,6 +32,7 @@ app.use('/api/item',itemRoutes)
 app.use('/api/cart',cartRoutes)
 app.use('/api/wishlist',wishlistRoutes)
 app.use('/api/order',orderRoutes)
+app.use('/api/orderdetails',orderDetailsRoutes)
 //Use environment's port
 app.listen(process.env.PORT||5000,()=>{
     console.log("server started")

@@ -19,9 +19,30 @@ router.get('/',async(req,res)=>{
         return res.status(500).send('Server Error');
     }
 });
-
+router.get('/item',async(req,res)=>{
+    try{
+        const result = await orderdetails.aggregate([
+            {
+                $lookup:
+                {
+                    from:'items',
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'itemdetails'
+                }
+            }
+        ])
+        res.send(result)
+    }
+    catch (err) {
+        res.send(err.json())
+    }
+})
 router.get('/order/:id',async(req,res)=>{
 
+
+    console.log("order details of each order")
+    console.log(req.params.id)
     var orderId = req.params.id
     try {        
         const allorderdetails = await orderdetails.aggregate([
@@ -31,14 +52,16 @@ router.get('/order/:id',async(req,res)=>{
                 }
             },
             {
-                $lookup:{
+                $lookup:
+                {
                     from:'items',
                     localField:"item",
                     foreignField:"_id",                    
-                    as:"itemdetails",  
+                    as:"itemdetails",                  
                 }
             }
         ]);
+        console.log(allorderdetails)
         res.send(allorderdetails)
     } catch (err) {
         return res.status(500).send('Server Error');

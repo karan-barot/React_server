@@ -12,11 +12,13 @@ const ObjectId = mongoose.Types.ObjectId
 
 router.get('/',async(req,res)=>{
     try {        
-        const allorders = await orders.find();
+        const allorders = await orders.find().sort({orderdate:-1});
         console.log(allorders)
         res.send(allorders)
     } catch (err) {
-        return res.status(500).send('Server Error');
+
+        console.error(err)
+        return res.status(500).send('Server Error' + err);
     }
 });
 
@@ -94,7 +96,7 @@ router.delete('/:id',auth,async(req,res)=>{
     }
 })
 */
-router.delete('/',auth,async(req,res)=>{
+router.delete('/',async(req,res)=>{
     try {
         const o = await orders.remove({})
    

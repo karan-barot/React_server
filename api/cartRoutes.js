@@ -41,9 +41,8 @@ router.get('/user/:id',async(req,res)=>{
                 }
             }
         ])
-        var cart = userCart.find(user=>user==req.params.id)
-        console.log('-----------------')
-        console.log(cart)
+        userCart.forEach(userCart=>console.log(userCart))
+    
         res.send(userCart)
     }catch(err){
         console.log(err)
@@ -91,6 +90,8 @@ router.post('/',auth,
         }
         
     } catch (err) {
+        console.error(err)
+
         res.status(500).send('Server Error');        
     }
 })
@@ -127,7 +128,7 @@ router.delete('/:id',async(req,res)=>{
         }
        
         const result = await carts.findByIdAndDelete(req.params.id)
-        res.send(result)
+        res.status(200).send(result)
    
     } catch (err) {
         res.status(404).send('Car not found!!!');        
