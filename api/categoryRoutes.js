@@ -13,7 +13,7 @@ router.get('/',async(req,res)=>{
         
         res.send(allcategories)
     } catch (err) {
-        return res.status(500).send('Server Error'+ "      Karan      "+err.json());
+        return res.status(500).send('Server Error'+ "      Karan      "+err);
     }
 });
 
