@@ -15,7 +15,7 @@ const orderRoutes = require('./api/orderRoutes')
 
 //Environment
 var environment = process.env.NODE_ENV || 'development'
-const connectDB = require('./Config/connectDB')[environment]
+const connectDB = require('./Config/connectDB')
 
 //Make folder public
 const { static } = require('express')
