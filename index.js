@@ -15,7 +15,7 @@ const wishlistRoutes = require('./api/wishlistRoutes')
 const orderRoutes = require('./api/orderRoutes')
 const connect = require('./config/connectDB')
 
-connect();
+console.log(connect())
 
 //Make folder public
 const { static } = require('express')
