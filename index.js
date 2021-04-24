@@ -5,7 +5,7 @@ app.use(cors())
 const carRoutes = require('./api/carsRoutes')
 const userRoutes = require('./api/userRoutes')
 const authRoutes = require('./api/authRoutes')
-const POST = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000
 const brandRoutes = require('./api/brandRoutes')
 const categoryRoutes = require('./api/categoryRoutes')
 const subcategoryRoutes = require('./api/subcategoryRoutes')
