@@ -5,7 +5,7 @@ app.use(cors())
 const carRoutes = require('./api/carsRoutes')
 const userRoutes = require('./api/userRoutes')
 const authRoutes = require('./api/authRoutes')
-
+const POST = process.env.PORT || 5000
 const brandRoutes = require('./api/brandRoutes')
 const categoryRoutes = require('./api/categoryRoutes')
 const subcategoryRoutes = require('./api/subcategoryRoutes')
@@ -30,6 +30,6 @@ app.use('/api/cart',cartRoutes)
 app.use('/api/wishlist',wishlistRoutes)
 app.use('/api/orderdetails',orderdetailsRoutes)
 app.use('/api/order',orderRoutes)
-app.listen(5000,()=>{
+app.listen(PORT,()=>{
     console.log("server started")
 })
