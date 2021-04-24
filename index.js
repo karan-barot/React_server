@@ -14,7 +14,7 @@ const cartRoutes = require('./api/cartRoutes')
 const wishlistRoutes = require('./api/wishlistRoutes')
 const orderRoutes = require('./api/orderRoutes')
 const orderDetailsRoutes = require('./api/orderDetailsRoutes')
-const connect = require('./config/connectDB')
+const connect = require('./connectDb')
 
 console.log(connect())
 
