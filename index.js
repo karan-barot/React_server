@@ -12,7 +12,6 @@ const itemRoutes = require('./api/itemRoutes')
 const cartRoutes = require('./api/cartRoutes')
 const wishlistRoutes = require('./api/wishlistRoutes')
 const orderRoutes = require('./api/orderRoutes')
-const orderdetailsRoutes = require('./api/orderdetailsRoutes')
 const connectDB = require('./Config/connectDB')
 
 //Make folder public
@@ -29,7 +28,6 @@ app.use('/api/subcategory',subcategoryRoutes)
 app.use('/api/item',itemRoutes)
 app.use('/api/cart',cartRoutes)
 app.use('/api/wishlist',wishlistRoutes)
-app.use('/api/orderdetails',orderdetailsRoutes)
 app.use('/api/order',orderRoutes)
 //Use environment's port
 app.listen(process.env.PORT||5000,()=>{
