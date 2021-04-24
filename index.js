@@ -12,7 +12,10 @@ const itemRoutes = require('./api/itemRoutes')
 const cartRoutes = require('./api/cartRoutes')
 const wishlistRoutes = require('./api/wishlistRoutes')
 const orderRoutes = require('./api/orderRoutes')
-const connectDB = require('./Config/connectDB')
+
+//Environment
+var environment = process.env.NODE_ENV || 'development'
+const connectDB = require('./Config/connectDB')[environment]
 
 //Make folder public
 const { static } = require('express')
