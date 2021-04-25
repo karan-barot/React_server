@@ -13,7 +13,7 @@ router.get('/',async(req,res)=>{
         
         res.send(allCars)
     } catch (err) {
-        return res.status(500).send('Server Error');
+        return res.status(500).send('Server Error' +"    "+err);
     }
 });
 

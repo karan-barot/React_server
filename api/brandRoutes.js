@@ -15,7 +15,7 @@ router.get('/',async(req,res)=>{
         
         res.send(allbrands)
     } catch (err) {
-        return res.status(500).send('Server Error');
+        return res.status(500).send('Server Error'+"  " +err    );
     }
 });
 
