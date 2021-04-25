@@ -45,7 +45,7 @@ router.post('/',
                 name:u.name
             },
         }
-        jwt.sign(payLoad,config.get('jwtsecret'),{expiresIn:'1h'},(err,token)=>{
+        jwt.sign(payLoad,config.get('jwtsecret')||process.env.JWT_TOKEN,{expiresIn:'1h'},(err,token)=>{
             if(err) throw err;
             res.json({token})
         })
